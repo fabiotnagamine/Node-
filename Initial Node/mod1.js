@@ -8,3 +8,5 @@ const nomeCompleto = () => {
 module.exports.nome = nome;
 
 module.exports.sobrenome = sobrenome;
+
+module.exports.nomeCompleto = nomeCompleto;
