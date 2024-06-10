@@ -1,17 +1,36 @@
+require('dotenv').config();
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const connectionStrings = "mongodb+srv://takashi:Takashi1253@cluster0.gkdgt5u.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-mongoose.connect(connectionStrings, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() =>{
-  console.log('OK')
-  app.emit('OK');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const flashMessages = require('connect-flash');
+const path = require("path");
+const route = require("./routes");
+
+// Connect to MongoDB
+mongoose.connect(process.env.CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.emit('OK');
+  })
+  .catch(e => console.log(e));
+
+// Configure session options
+const sessionOptions = session({
+  secret: 'secret',
+  store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    httpOnly: true
+  }
 });
 
-
-
-const route = require("./routes");
-const path = require("path");
+app.use(sessionOptions);
+app.use(flashMessages());
 
 app.use(
   express.urlencoded({
@@ -26,7 +45,9 @@ app.set("view engine", "ejs");
 
 app.use(route);
 
-app.listen(3000, () => {
-  console.log("Acessar http://localhost:3000");
-  console.log("Servidor executando na porta 3000");
+app.on('OK', () => {
+  app.listen(3000, () => {
+    console.log("Access http://localhost:3000");
+    console.log("Server running on port 3000");
+  });
 });
