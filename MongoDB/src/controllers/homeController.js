@@ -13,5 +13,8 @@ HomeModel.create({
 exports.homePage = (request, response) => {
     request.flash({ info: 'Error' });
     request.session.usuario = { name: 'N', connected: true}
-    response.render('view');
+    response.render('view', {
+        name: 'Fabio',
+        numbers: [1, 2, 3, 4]
+    });
 };
