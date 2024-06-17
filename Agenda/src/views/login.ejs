@@ -1,48 +1,64 @@
 <%- include('includes/head.ejs') %>
+<%- include('includes/navbar.ejs') %>
 
-<%- include('includes/navbar.ejs') %>    
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
 
-    <div class='container'>
-        <div class='row'>
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8">
-                <h1 class="text-center">
-                   Login
-                </h1>
-                <p class="text-center">
-                    <b>Login or create your account</b>
-                </p>
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Criar conta ou Entrar</h1>
+      <p class="text-center lead">Faça login ou crie sua conta abaixo</p>
 
-                <div class="row">
-                    <div class="col-lg">
-                        <h4>Register</h4>
-                        <form>
-                            <div class="form-group">
-                              <label for="exampleInputEmail1">Email address</label>
-                              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                              <label for="exampleInputPassword1">Password</label>
-                              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-                            <div class="form-check">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </form>
-                    </div>
-                    <div class="flex"></div>
-                    <div class="col-lg">
-                        <h4>Login</h4>
-                    </div>
-                </div>
+      <%- include('includes/messages'); %>
 
-              
-              
+      <div class="row">
 
+        <div class="col-lg my-5">
+          <h4>Faça seu cadastro</h4>
+          <p>Se você ainda não tem conta, preencha o formulário abaixo:</p>
+
+          <form class="form-cadastro" action="/login/register" method="POST">
+            <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+            <div class="form-group">
+              <label>Seu e-mail</label>
+              <input type="email" class="form-control" name="email">
             </div>
-            <div class="col-lg-2"></div>
+            <div class="form-group">
+              <label>Sua senha</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Criar minha conta</button>
+          </form>
+
         </div>
+
+        <div class="col-lg my-5">
+          <h4>Faça seu login</h4>
+
+          <p>Se você já tem uma conta, faça login abaixo:</p>
+
+          <form class="form-login" action="/login/login" method="POST">
+            <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+            <div class="form-group">
+              <label>Seu e-mail</label>
+              <input type="email" class="form-control" name="email">
+            </div>
+            <div class="form-group">
+              <label>Sua senha</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+          </form>
+
+          
+        </div>
+
+      </div>
+
     </div>
-    
-<%- include('includes/footer.ejs') %>
+
+    <div class="col-lg-2"></div>
+  </div>
+</div>
+
+<%- include('includes/footer') %>
